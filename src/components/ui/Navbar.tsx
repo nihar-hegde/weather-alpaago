@@ -12,8 +12,9 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
-import { Button } from "./button";
+import { Button, buttonVariants } from "./button";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
+import Image from "next/image";
 
 const Navbar = () => {
   // @ts-ignore
@@ -46,15 +47,25 @@ const Navbar = () => {
 
   return (
     <div className="h-20 w-full border-b-2 flex items-center justify-between p-2">
-      <ul className="flex">
+      <ul className="flex items-center justify-center">
         <li className="p-2 cursor-pointer">
-          <Link href="/">Home</Link>
+          <Image
+            src={"/weather-logo.svg"}
+            height={34}
+            width={34}
+            alt="Weather"
+          />
+        </li>
+        <li className="p-2 cursor-pointer">
+          <Link href="/" className={buttonVariants()}>
+            Home
+          </Link>
         </li>
       </ul>
 
       {loading ? null : !user ? (
         <ul className="flex">
-          <li onClick={handleSignIn} className="p-2 cursor-pointer">
+          <li onClick={handleSignIn} className={buttonVariants()}>
             Login with Google
           </li>
         </ul>
