@@ -7,6 +7,7 @@ import {
   getDoc,
   collection,
   setDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -50,6 +51,7 @@ export const addUserToDb = async (user: IUser) => {
         displayName: user.displayName,
         photoURL: user.photoURL,
         status: "inactive",
+        createdAt: serverTimestamp(),
       });
       console.log("User Document written to DB: ", uid);
     } catch (error: any) {

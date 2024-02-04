@@ -43,27 +43,19 @@ const Navbar = () => {
     };
     checkAuthentication();
   }, [user]);
-  console.log(user);
+
   return (
     <div className="h-20 w-full border-b-2 flex items-center justify-between p-2">
       <ul className="flex">
         <li className="p-2 cursor-pointer">
           <Link href="/">Home</Link>
         </li>
-        {!user ? null : (
-          <li className="p-2 cursor-pointer">
-            <Link href="/dashboard">Dashboard</Link>
-          </li>
-        )}
       </ul>
 
       {loading ? null : !user ? (
         <ul className="flex">
           <li onClick={handleSignIn} className="p-2 cursor-pointer">
-            Login
-          </li>
-          <li onClick={handleSignIn} className="p-2 cursor-pointer">
-            Sign up
+            Login with Google
           </li>
         </ul>
       ) : (
@@ -97,14 +89,12 @@ const Navbar = () => {
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem>
-                  Profile
-                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                  <Link href={"/dashboard"}>Dashboard</Link>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleSignOut}>
                 Log out
-                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
