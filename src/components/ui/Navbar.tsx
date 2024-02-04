@@ -43,6 +43,7 @@ const Navbar = () => {
     };
     checkAuthentication();
   }, [user]);
+  console.log(user);
   return (
     <div className="h-20 w-full border-b-2 flex items-center justify-between p-2">
       <ul className="flex">

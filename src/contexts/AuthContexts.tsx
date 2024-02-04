@@ -6,16 +6,27 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
 } from "firebase/auth";
-import { auth } from "@/firebase/firebase";
+import { addUserToDb, auth } from "@/firebase/firebase";
 
 const AuthContext = createContext(null);
 // @ts-ignore
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const googleSignIn = () => {
+  const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, provider);
+
+    console.log(result.user, "RESULT RESULT");
+
+    const dbUser = {
+      uid: result.user.uid,
+      email: result.user.email,
+      displayName: result.user.displayName,
+      photoURL: result.user.photoURL,
+    };
+
+    await addUserToDb(dbUser);
   };
 
   const logOut = () => {

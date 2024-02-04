@@ -1,6 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  setDoc,
+} from "firebase/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,5 +25,41 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-export { app, auth };
+interface IUser {
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+  uid: string;
+  status?: string;
+}
+
+export const addUserToDb = async (user: IUser) => {
+  const { uid } = user;
+  const docRef = doc(db, "users", uid);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    return;
+  } else {
+    try {
+      await setDoc(docRef, {
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        status: "inactive",
+      });
+      console.log("User Document written to DB: ", uid);
+    } catch (error: any) {
+      if (error.code === "auth/invalid-uid") {
+        console.error("Invalid UID provided.");
+      } else {
+        console.error("Error while writing user to DB:", error);
+      }
+    }
+  }
+};
+
+export { app, auth, db };
