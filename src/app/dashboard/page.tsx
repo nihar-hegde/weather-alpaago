@@ -1,4 +1,5 @@
 "use client";
+import DataTable from "@/components/DataTable";
 import { UserAuth } from "@/contexts/AuthContexts";
 import React, { useEffect, useState } from "react";
 
@@ -19,10 +20,9 @@ const Dashboard = () => {
       {loading ? (
         <h1 className="text-xl">Loading...</h1>
       ) : user ? (
-        <p>
-          Welcome, {user.displayName} - you are logged in to the profile page -
-          a protected route.
-        </p>
+        <div>
+          <DataTable />
+        </div>
       ) : (
         <p>You must be logged in to view this page - protected route.</p>
       )}
